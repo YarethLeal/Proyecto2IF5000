@@ -26,7 +26,7 @@ public class ControllerNode {
 	// Registra el nombre de todos los archivos que son guardados en el RAID
 	public void registraInformacion(String nombre) {
 		try {
-			File file = new File("/src/RAID/archivos.txt");
+			File file = new File("../Servidor/src/RAID/archivos.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}
@@ -45,7 +45,7 @@ public class ControllerNode {
 	public ArrayList<String> listaInformacion() {
 		ArrayList<String> lista = new ArrayList<String>();
 		try {
-			File file = new File("/RAID/archivos.txt");
+			File file = new File("../Servidor/src/RAID/archivos.txt");
 			if (!file.exists()) {
 				file.createNewFile();
 			}

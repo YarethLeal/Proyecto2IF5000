@@ -47,7 +47,7 @@ public class Cliente {
 	            //Lo envio con send
 	            System.out.println("Envio el datagrama");
 	            socketUDP.send(packet);
-	            
+	            buffer = new byte[1024];
 	            mensaje = nombre;
 
 	            buffer = mensaje.getBytes();
@@ -58,16 +58,17 @@ public class Cliente {
 		
 			// Envio de Paquete de datos Imagen
 	        MosaicoImagen mosaico;
-			mosaico = new MosaicoImagen(urlImagen, 15, 15);
+			mosaico = new MosaicoImagen(urlImagen,2, 2);
 			ArrayList<PiezaImagen> piezasAux = mosaico.getImagenPartes();
-			Random random = new Random();
+			int i=0;
 			while (!piezasAux.isEmpty()) {
-				Thread.sleep(2000);
-				int rdm = random.nextInt(piezasAux.size());
-				PiezaImagen pieza = piezasAux.remove(rdm);
-				buffer = toByteArray(pieza);
+				Thread.sleep(1000);
+				buffer = new byte[1024];
+				PiezaImagen pieza = piezasAux.remove(i);
+				buffer = toByteArray(pieza.getPieza());
 				packet = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
 				socketUDP.send(packet);
+				i++;
 			}
 			
 								
