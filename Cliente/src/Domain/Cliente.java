@@ -47,7 +47,7 @@ public class Cliente {
 	            //Lo envio con send
 	            System.out.println("Envio el datagrama");
 	            socketUDP.send(packet);
-	            buffer = new byte[1024];
+	            buffer = new byte[1024];	            
 	            mensaje = nombre;
 
 	            buffer = mensaje.getBytes();
