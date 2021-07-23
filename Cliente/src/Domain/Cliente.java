@@ -22,88 +22,11 @@ public class Cliente {
 	public Cliente() throws UnknownHostException {
 	
         direccionServidor = InetAddress.getByName("localhost");
-        //buffer donde se almacenara los mensajes
-        byte[] buffer = new byte[1024];
-
-        try {
-        	//Obtengo la localizacion de localhost
-
-            //Creo el socket de UDP
-            DatagramSocket socketUDP = new DatagramSocket();
-
-            String mensaje = "Inicio";
-
-            //Convierto el mensaje a bytes
-            buffer = mensaje.getBytes();
-
-            //Creo un datagrama
-            DatagramPacket pregunta = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
-
-            //Lo envio con send
-            System.out.println("Envio el datagrama");
-            socketUDP.send(pregunta);
-            
-            //Prueba datagrama
-            //Inicio
-            
-            Thread.sleep(2000);
-            mensaje = "Yo";
-            buffer = new byte[1024];
-            buffer = mensaje.getBytes();
-            pregunta = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
-            socketUDP.send(pregunta);
-            
-            Thread.sleep(2000);
-            mensaje = "soy";
-            buffer = new byte[1024];
-            buffer = mensaje.getBytes();
-            pregunta = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
-            socketUDP.send(pregunta);
-            
-            Thread.sleep(2000);
-            mensaje = "Yareth";
-            buffer = new byte[1024];
-            buffer = mensaje.getBytes();
-            pregunta = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
-            socketUDP.send(pregunta);
-            
-            Thread.sleep(2000);
-            mensaje = "Fin";
-            buffer = new byte[1024];
-            buffer = mensaje.getBytes();
-            pregunta = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
-            socketUDP.send(pregunta);
-            //Fin
-
-            //Preparo la respuesta
-            buffer = new byte[1024];
-            DatagramPacket peticion = new DatagramPacket(buffer, buffer.length);
-
-            //Recibo la respuesta
-            socketUDP.receive(peticion);
-            System.out.println("Recibo la peticion");
-
-            //Cojo los datos y lo muestro
-            mensaje = new String(peticion.getData());
-            System.out.println(mensaje);
-
-            //cierro el socket
-            socketUDP.close();
-
-        } catch (SocketException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+     
 
 	}
 	
-	public void envio(String urlImagen) {
+	public void envio(String urlImagen, String nombre) {
 		try {
 			 //puerto del servidor
 	      
@@ -125,7 +48,7 @@ public class Cliente {
 	            System.out.println("Envio el datagrama");
 	            socketUDP.send(packet);
 	            
-	            mensaje = urlImagen;
+	            mensaje = nombre;
 
 	            buffer = mensaje.getBytes();
 	            packet = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
@@ -147,14 +70,7 @@ public class Cliente {
 				socketUDP.send(packet);
 			}
 			
-			
-			  mensaje = "Fin";
-
-	            buffer = mensaje.getBytes();
-	            packet = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
-	            System.out.println(mensaje);
-	            socketUDP.send(packet);
-		
+								
 			// Recibir respuesta del servidor
 			byte[] bufer = new byte[1000];
 			DatagramPacket respuesta = new DatagramPacket(bufer, bufer.length);
