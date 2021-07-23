@@ -39,15 +39,15 @@ public class MosaicoImagen {
 	}
 
 	public void dividirImagen(int filas, int columnas) {
-		int id = 0;
+		
 		for (int i = 0; i < filas; i++) {
 			for (int j = 0; j < columnas; j++) {
 				Image tempImage = Toolkit.getDefaultToolkit().createImage(new FilteredImageSource(imagenPrincipal.getSource(), new CropImageFilter(
 						j * (width / columnas), i * (height / filas), width / columnas, height / filas)));
-				Image imagen = tempImage.getScaledInstance(45, 45, Image.SCALE_SMOOTH);
-				PiezaImagen pieza = new PiezaImagen(imagen, id);
+				Image imagen = tempImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+				PiezaImagen pieza = new PiezaImagen(imagen);
 				imagenPartes.add(pieza);
-				id++;
+				
 			}
 		}
 	}
@@ -60,9 +60,8 @@ public class MosaicoImagen {
 		
 		for (int i = 0; i < cantPartes; i++) {
 			for (int j = 0; j < cantPartes; j++) {
-				if(piezas.get(j).getId()==i) {
 					imagenes[i] =(BufferedImage)piezas.get(j).getPieza();
-				}
+				
 			}
             
         }

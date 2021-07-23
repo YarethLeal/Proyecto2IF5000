@@ -1,5 +1,8 @@
 package Domain;
 
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,6 +18,8 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.imageio.ImageIO;
 
 public class Cliente {
 	  final int PUERTO_SERVIDOR = 5000;
@@ -62,10 +67,12 @@ public class Cliente {
 			ArrayList<PiezaImagen> piezasAux = mosaico.getImagenPartes();
 			int i=0;
 			while (!piezasAux.isEmpty()) {
+				 
 				Thread.sleep(1000);
 				buffer = new byte[1024];
 				PiezaImagen pieza = piezasAux.remove(i);
-				buffer = toByteArray(pieza.getPieza());
+				buffer = toByteArray((Object)pieza);
+				System.out.println("LLega");
 				packet = new DatagramPacket(buffer, buffer.length, direccionServidor, PUERTO_SERVIDOR);
 				socketUDP.send(packet);
 				i++;
@@ -73,7 +80,7 @@ public class Cliente {
 			
 								
 			// Recibir respuesta del servidor
-			byte[] bufer = new byte[1000];
+			byte[] bufer = new byte[1024];
 			DatagramPacket respuesta = new DatagramPacket(bufer, bufer.length);
 			socketUDP.receive(respuesta);
 			// Enviamos la respuesta del servidor a la salida estandar
