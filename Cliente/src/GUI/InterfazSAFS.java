@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -40,6 +41,7 @@ public class InterfazSAFS extends JFrame implements ActionListener {
 	private ImageIcon icon;
 	private JLabel labelArchivo;
 	private String rutaArchivo;
+	private String nombreArchivo;
 	private JList<String> jlLista;
 
 	public InterfazSAFS() {
@@ -175,6 +177,7 @@ public class InterfazSAFS extends JFrame implements ActionListener {
 			if (seleccion == JFileChooser.APPROVE_OPTION) {
 				File fichero = this.jfcBuscaImagen.getSelectedFile();
 				this.rutaArchivo = fichero.getPath();
+				this.nombreArchivo= fichero.getName();
 				try {
 					this.biImagen = ImageIO.read(fichero);
 					this.icon = new ImageIcon(this.biImagen);
@@ -204,18 +207,32 @@ public class InterfazSAFS extends JFrame implements ActionListener {
 				repaint();
 			}
 		} else if (e.getSource().equals(this.jbtnEnviar)) {
-			Cliente cliente = new Cliente();
-			cliente.envio(this.rutaArchivo);
+			Cliente cliente;
+			try {
+				cliente = new Cliente();
+				cliente.envio(this.rutaArchivo,this.nombreArchivo);
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 
 		} else if (e.getSource().equals(this.jbtnLista)) {
-			Cliente cliente = new Cliente();
-			ArrayList<String> datos = cliente.listaObjetos();
+			Cliente cliente;
+			try {
+				cliente = new Cliente();
+				ArrayList<String> datos = cliente.listaObjetos();
 			DefaultListModel<String> lista = new DefaultListModel<String>();
 			for (int i = 0; i < datos.size(); i++) {
 				lista.add(i, datos.get(i));
 			}
 			this.jlLista.setModel(lista);
 			repaint();
+			} catch (UnknownHostException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
 
 		} else if (e.getSource().equals(this.jbtnPedir)) {
 
