@@ -38,6 +38,7 @@ public class Servidor extends JFrame implements Runnable {
 
 		byte[] buffer = new byte[1024];
 		try {
+			//Crea Socket
 			DatagramSocket serverSocket = new DatagramSocket(this.PORT);
 			InetAddress address = InetAddress.getLocalHost();
 			System.out.println("Servidor ejecutado");
@@ -45,10 +46,10 @@ public class Servidor extends JFrame implements Runnable {
 			
 			//Esperar siempre solicitudes
 			while(true) {
-				//Preparo espacio de peticion
+				//Preparo espacio de peticion con paquete de datagrama
 				DatagramPacket solicitud = new DatagramPacket(buffer, buffer.length);
 				
-				//Recibe Datagrama
+				//Recibe el paquete enviado por el cliente
 				serverSocket.receive(solicitud);
 				System.out.println("Informacion de cliente recibida");
 				
@@ -68,6 +69,32 @@ public class Servidor extends JFrame implements Runnable {
 						mensaje = new String(solicitud.getData());
 						System.out.println(mensaje);
 					}
+				}else if(mensaje.contains("Registra Imagen")) {
+					System.out.println("Entra If Registra Imagen");
+					//Nombre y formato imagen
+					buffer = new byte[1024];
+					solicitud = new DatagramPacket(buffer, buffer.length);
+					serverSocket.receive(solicitud);
+					ControllerNode tempController = new ControllerNode();
+					mensaje = new String(solicitud.getData());
+					System.out.println(mensaje);
+					tempController.registraInformacion(mensaje);
+					int i=0;
+					//Paquetes de imagen
+					while(i<4) {
+						//Recibe Datagrama
+						buffer = new byte[1024];
+						solicitud = new DatagramPacket(buffer, buffer.length);
+						serverSocket.receive(solicitud);
+						//Obtener mensaje
+						tempController.almacenaDatos(solicitud.getData());
+						System.out.println("Iteracion:");
+						System.out.println(i);
+						i++;
+					}
+					tempController.distribuyeInfoNodos(mensaje);
+				}else if(mensaje.contains("Obtiene Imagen")) {
+					
 				}
 				
 				//Devolver respuesta
