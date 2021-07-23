@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -21,6 +22,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
+import Domain.Cliente;
 
 public class InterfazSAFS extends JFrame implements ActionListener {
 	// InitComponents
@@ -42,7 +45,7 @@ public class InterfazSAFS extends JFrame implements ActionListener {
 	public InterfazSAFS() {
 		setTitle("Cliente");
 		setLayout(null);
-		setSize(800, 800);
+		setSize(800, 700);
 		initComponents();
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -82,7 +85,7 @@ public class InterfazSAFS extends JFrame implements ActionListener {
 		// textfield
 		this.jtfServidor = new JTextField();
 		this.jtfServidor.setFont(font1);
-		this.jtfPort = new JTextField("69");
+		this.jtfPort = new JTextField("5000");
 		this.jtfPort.setFont(font1);
 		// Botones
 		this.jbtnImagen = new JButton("Selecciona Imagen");
@@ -201,8 +204,18 @@ public class InterfazSAFS extends JFrame implements ActionListener {
 				repaint();
 			}
 		} else if (e.getSource().equals(this.jbtnEnviar)) {
+			Cliente cliente = new Cliente();
+			cliente.envio(this.rutaArchivo);
 
 		} else if (e.getSource().equals(this.jbtnLista)) {
+			Cliente cliente = new Cliente();
+			ArrayList<String> datos = cliente.listaObjetos();
+			DefaultListModel<String> lista = new DefaultListModel<String>();
+			for (int i = 0; i < datos.size(); i++) {
+				lista.add(i, datos.get(i));
+			}
+			this.jlLista.setModel(lista);
+			repaint();
 
 		} else if (e.getSource().equals(this.jbtnPedir)) {
 
