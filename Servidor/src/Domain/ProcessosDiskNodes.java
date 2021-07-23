@@ -20,7 +20,7 @@ public class ProcessosDiskNodes {
 	}
 	
 	public void DistribucionRaid(String nombre) {
-		this.path = "/RAID/R"+metadatos+"/"+nombre+"_"+metadatos+".bmp";// /RAID/F#/IMAGEN_#.bmp
+		this.path = "../Servidor/src/RAID/R"+metadatos+"/"+nombre+"_"+metadatos+".bmp";// /RAID/F#/IMAGEN_#.bmp
 		Image image = (Image)toObject(libros);
 		BufferedImage imagen = (BufferedImage) image;
 		try {
